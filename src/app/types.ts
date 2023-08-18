@@ -1,4 +1,6 @@
-export default interface GameResponse {
+import {Dispatch, ReactElement, SetStateAction} from "react"
+
+export interface GameResponse {
   id: number
   slug: string
   name: string
@@ -31,4 +33,15 @@ export default interface GameResponse {
     games_count: number
     image_background: string
   }[]
+}
+
+export interface ElementProps {
+  children?: ReactElement
+}
+
+export interface ThemeContextType {
+  gameData?: GameResponse[]
+  setGameData?: Dispatch<SetStateAction<GameResponse[]>>
+  searchTerm?: string
+  setSearchTerm?: Dispatch<SetStateAction<string>>
 }

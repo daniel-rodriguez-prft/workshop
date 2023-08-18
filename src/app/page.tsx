@@ -1,9 +1,14 @@
-'use client'
+"use client"
 
-import Image from "next/image"
-import {Game} from "./components/game"
-import styles from "./page.module.css"
+import Form from "./components/form"
+import Home from "./components/home"
+import {GameProvider} from "./context/gameContext"
+//import styles from "./page.module.css"
 
-export default function Home() {
-  return <Game />
+export default function Main() {
+  return (
+    <GameProvider>
+      <Home />
+    </GameProvider>
+  )
 }
