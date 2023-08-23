@@ -32,3 +32,16 @@ export default interface GameResponse {
     image_background: string
   }[]
 }
+
+export interface GameType {
+  name: string
+  image: string
+  desc?: string
+}
+
+export interface DialogType {
+  isOpen: boolean
+  setIsOpen: (isOpen: boolean) => void
+  title: string
+  image: string
+}

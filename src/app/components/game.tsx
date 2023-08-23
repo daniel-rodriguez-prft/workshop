@@ -1,24 +1,43 @@
-import Image from "next/image"
 import {useRef, useState} from "react"
 import useGameApi from "../hooks/useGameApi"
-import Slider from "./carousel"
+import {GameType} from "../types"
+import DialogElement from "./dialog"
+import GameResult from "./gameResult"
 
 export function Game() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [currentGame, setCurrentGame] = useState<GameType>({
+    name: "",
+    image: "",
+    desc: ""
+  })
   const [searchTerm, setSearchTerm] = useState("")
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
   const {data} = useGameApi(searchTerm)
-  const [gameIndex, setGameIndex] = useState<number>(
-    Math.floor(Math.random() * 10)
-  )
+  const handleModalOpen = ({name, image}: GameType) => {
+    setCurrentGame({
+      name,
+      image
+    })
+    setIsOpen(true)
+  }
 
   return (
-    <div>
-      <h1>Título</h1>
+    <div
+      style={{
+        opacity: isOpen ? 0.3 : 1,
+        filter: isOpen ? "blur(3px)" : "unset"
+      }}>
+      <DialogElement
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title={currentGame.name}
+        image={currentGame.image}
+      />
       <form
         onSubmit={ev => {
           ev.preventDefault()
-          setSearchTerm(inputRef?.current?.value)
-          setGameIndex(0)
+          setSearchTerm(inputRef?.current?.value as string)
         }}>
         <input
           type='text'
@@ -31,7 +50,27 @@ export function Game() {
           value='enter'
         />
       </form>
-      {data && (
+      {data && data.length > 1 ? (
+        <div>
+          {data.map(element => {
+            return (
+              <GameResult
+                onClick={() =>
+                  handleModalOpen({
+                    name: element.name,
+                    image: element.background_image
+                  })
+                }
+                key={element.id}
+                name={element.name}
+              />
+            )
+          })}
+        </div>
+      ) : (
+        <div>Sin resultados</div>
+      )}
+      {/* {data && (
         <div>
           {gameIndex}
           <h2>{data[gameIndex].name}</h2>
@@ -62,7 +101,7 @@ export function Game() {
           </ul>
           <Slider images={data[gameIndex].short_screenshots} />
         </div>
-      )}
+      )} */}
     </div>
   )
 }

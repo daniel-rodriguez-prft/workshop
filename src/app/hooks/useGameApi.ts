@@ -5,6 +5,7 @@ const useGameApi = (searchTerm: string) => {
   const [data, setData] = useState<{
     results?: GameResponse[]
   }>({})
+  
   useEffect(() => {
     fetch(`${CORS_WORKER}/?${APP_ENDPOINT}?key=${API_KEY}&search=${searchTerm}`)
       .then(res => res.json())
