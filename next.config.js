@@ -11,6 +11,12 @@
         },
         {
           protocol: "https",
+          hostname: "img.itch.zone",
+          port: "",
+          pathname: "/**"
+        },
+        {
+          protocol: "https",
           hostname: "placehold.co",
           port: "",
           pathname: "/**"

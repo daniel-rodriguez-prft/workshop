@@ -1,4 +1,6 @@
-export default interface GameResponse {
+import {ReactElement} from "react"
+
+export interface GameType {
   id: number
   slug: string
   name: string
@@ -8,6 +10,7 @@ export default interface GameResponse {
   rating: number
   rating_top: number
   metacritic: string
+  description_raw: string
   short_screenshots: {
     id: number
     image: string
@@ -31,4 +34,15 @@ export default interface GameResponse {
     games_count: number
     image_background: string
   }[]
+}
+
+export interface AccordionDataProps {
+  id: number
+  header: string
+  content: string | ReactElement
+}
+
+export interface AccordionProps {
+  title: string
+  data: AccordionDataProps[]
 }

@@ -1,0 +1,17 @@
+.accordion {
+  /* font-size: 26px;
+  font-weight: normal;
+  line-height: normal;
+  background: #303030;
+  white-space: pre-wrap;
+  user-select: none ;*/
+  overflow: hidden;
+  &.open {
+    max-height: unset;
+    transition: max-height 0.25ms cubic-bezier(0.5, 0, 0.1, 1);
+  }
+  &.closed {
+    max-height: 0px;
+    transition: max-height 0.25ms cubic-bezier(0.5, 0, 0.1, 1);
+  }
+}

@@ -1,37 +1,29 @@
 import Image from "next/image"
+import Link from "next/link"
 import {useRef, useState} from "react"
 import useGameApi from "../hooks/useGameApi"
 import Slider from "./carousel"
+import Form from "./form"
 
 export function Game() {
   const [searchTerm, setSearchTerm] = useState("")
-  const inputRef = useRef(null)
   const {data} = useGameApi(searchTerm)
-  const [gameIndex, setGameIndex] = useState<number>(
-    Math.floor(Math.random() * 10)
-  )
 
   return (
-    <div>
-      <h1>Título</h1>
-      <form
-        onSubmit={ev => {
-          ev.preventDefault()
-          setSearchTerm(inputRef?.current?.value)
-          setGameIndex(0)
-        }}>
-        <input
-          type='text'
-          name=''
-          id=''
-          ref={inputRef}
-        />
-        <input
-          type='submit'
-          value='enter'
-        />
-      </form>
+    <main>
+      <Form setSearchTerm={setSearchTerm} />
       {data && (
+        <div>
+          {data.map(element => {
+            return (
+              <h2 key={element.id}>
+                <Link href={`/game/${element.id}`}>{element.name}</Link>
+              </h2>
+            )
+          })}
+        </div>
+      )}
+      {/* {data && (
         <div>
           {gameIndex}
           <h2>{data[gameIndex].name}</h2>
@@ -62,7 +54,7 @@ export function Game() {
           </ul>
           <Slider images={data[gameIndex].short_screenshots} />
         </div>
-      )}
-    </div>
+      )} */}
+    </main>
   )
 }

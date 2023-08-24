@@ -3,7 +3,7 @@ import {API_KEY, APP_ENDPOINT, CORS_WORKER} from "../constants"
 import GameResponse from "../types"
 const useGameApi = (searchTerm: string) => {
   const [data, setData] = useState<{
-    results?: GameResponse[]
+    results?: GameResponse[] | null
   }>({})
   useEffect(() => {
     fetch(`${CORS_WORKER}/?${APP_ENDPOINT}?key=${API_KEY}&search=${searchTerm}`)
