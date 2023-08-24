@@ -1,9 +1,9 @@
 import Image from "next/image"
+import Link from "next/link"
 import {useRef, useState} from "react"
 import useGameApi from "../hooks/useGameApi"
 import Slider from "./carousel"
 import Form from "./form"
-import GameResult from "./gameResult"
 
 export function Game() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -16,10 +16,9 @@ export function Game() {
         <div>
           {data.map(element => {
             return (
-              <GameResult
-                key={element.id}
-                game={element}
-              />
+              <h2 key={element.id}>
+                <Link href={`/game/${element.id}`}>{element.name}</Link>
+              </h2>
             )
           })}
         </div>

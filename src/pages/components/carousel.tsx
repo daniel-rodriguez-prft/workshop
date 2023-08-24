@@ -3,12 +3,12 @@ import BearCarousel, {
   BearSlideImage
 } from "bear-react-carousel"
 import "bear-react-carousel/dist/index.css"
-import GameResponse from "../types"
+import {GameType} from "../types"
 
 const bearSlideItemData = ({
   images
 }: {
-  images: GameResponse["short_screenshots"]
+  images: GameType["short_screenshots"]
 }): TBearSlideItemDataList =>
   images.map(row => {
     return {
@@ -17,7 +17,7 @@ const bearSlideItemData = ({
     }
   })
 
-const Slider = (images: {images: GameResponse["short_screenshots"]}) => {
+const Slider = (images: {images: GameType["short_screenshots"]}) => {
   return (
     <BearCarousel
       data={bearSlideItemData(images)}
