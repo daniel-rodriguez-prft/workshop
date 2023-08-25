@@ -1,24 +1,65 @@
 import {useState} from "react"
 import "../styles/accordion.scss"
-import { AccordionProps } from "../types"
+import {AccordionContextProps, ElementType} from "../types"
+import {createContext, useContext} from "react"
 
-export default function Accordion({title, data}: AccordionProps) {
+const AccordionContext = createContext<AccordionContextProps>({
+  isOpen: false,
+  setIsOpen: () => {}
+})
+
+function useAccordionContext() {
+  const context = useContext(AccordionContext)
+  if (context === undefined) {
+    throw new Error("useAccordionContext must be used in an AccordionProvider")
+  }
+
+  return context
+}
+
+export default function Accordion({children, ...remainingProps}: ElementType) {
+
   return (
-    <div>
-      <h1>{title}</h1>
-      {data &&
-        data.map(element => {
-          const [isOpen, setOpen] = useState(false)
+    <Accordion.Container {...remainingProps}>
+      <>{children}</>
+    </Accordion.Container>
+  )
+}
 
-          return (
-            <div key={element.id}>
-              <h3 onClick={() => setOpen(!isOpen)}>{element.header}</h3>
-              <div className={`accordion ${isOpen ? "open" : "closed"}`}>
-                {element.content}
-              </div>
-            </div>
-          )
-        })}
+Accordion.Item = function Item({children}: ElementType) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <AccordionContext.Provider value={{isOpen, setIsOpen}}>
+      <div>{children}</div>
+    </AccordionContext.Provider>
+  )
+}
+
+Accordion.Title = function Title({children}: ElementType) {
+  return <div>{children}</div>
+}
+
+Accordion.Container = function Container({children, ...remainingProps}: ElementType) {
+  return <div {...remainingProps}>{children}</div>
+}
+
+Accordion.Heading = function Heading({children}: ElementType) {
+  const {isOpen, setIsOpen} = useAccordionContext()
+
+  return <div onClick={() => setIsOpen(!isOpen)}>{children}</div>
+}
+
+Accordion.Content = function Content({
+  children,
+  ...remainingProps
+}: ElementType) {
+  const {isOpen} = useAccordionContext()
+  return (
+    <div
+      {...remainingProps}
+      className={`accordion ${isOpen ? "open" : "closed"}`}>
+      {children}
     </div>
   )
 }

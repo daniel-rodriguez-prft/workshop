@@ -30,7 +30,7 @@ export default function Page({data}: {data: GameType}) {
     {id: 0, header: "Description", content: data.description_raw},
     {
       id: 2,
-      header: "Genre",
+      header: "Genres",
       content: (
         <>
           {data.genres.map(el => (
@@ -59,10 +59,23 @@ export default function Page({data}: {data: GameType}) {
   return (
     <div>
       <Link href='/'>Regresar</Link>
-      <Accordion
-        title={data.name}
-        data={accordionData}
-      />
+      <Accordion className='accordion'>
+        <Accordion.Title>
+          <h1>{data.name}</h1>
+        </Accordion.Title>
+        <Accordion.Container>
+          {accordionData.map(element => (
+            <Accordion.Item key={element.id}>
+              <Accordion.Heading>
+                <h2>{element.header}</h2>
+              </Accordion.Heading>
+              <Accordion.Content className="accordion-content">
+                <p>{element.content}</p>
+              </Accordion.Content>
+            </Accordion.Item>
+          ))}
+        </Accordion.Container>
+      </Accordion>
     </div>
   )
 }

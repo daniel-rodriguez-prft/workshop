@@ -1,4 +1,10 @@
-import {ReactElement} from "react"
+import {
+  DetailedHTMLProps,
+  Dispatch,
+  HTMLAttributes,
+  ReactElement,
+  SetStateAction
+} from "react"
 
 export interface GameType {
   id: number
@@ -45,4 +51,14 @@ export interface AccordionDataProps {
 export interface AccordionProps {
   title: string
   data: AccordionDataProps[]
+}
+
+export interface AccordionContextProps {
+  isOpen: boolean
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+}
+
+export interface ElementType
+  extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+  children: ReactElement[] | string | JSX.Element
 }
