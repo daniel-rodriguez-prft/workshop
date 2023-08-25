@@ -1,16 +1,36 @@
-import { useState, useEffect } from "react";
-import { CORS_WORKER, APP_ENDPOINT, API_KEY } from "../constants";
+import {useCallback, useState} from "react"
+import {GameResponse} from "../types"
 
-const useFetch = (searchTerm: string) => {
-  const [data, setData] = useState(null);
+export const useFetch = (initialState: {
+  status: "idle" | "pending" | "success"
+  data: GameResponse | null
+  error: any
+}) => {
+  const [status, setStatus] = useState(initialState.status)
+  const [data, setData] = useState(initialState.data)
+  const [error, setError] = useState(initialState.error)
 
-  useEffect(() => {
-    fetch(`${CORS_WORKER}/?${APP_ENDPOINT}?key=${API_KEY}&search=${searchTerm}`)
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, [searchTerm]);
+  const asyncFn = useCallback(
+    (promise: Promise<GameResponse>) => {
+      if (!promise || !promise.then) {
+        throw new Error("Error")
+      }
+      setStatus("pending")
 
-  return [data];
-};
+      return promise.then(
+        data => {
+          setData(data)
+          setStatus("success")
+          return data
+        },
+        error => {
+          setError(error)
+          return Promise.reject(error)
+        }
+      )
+    },
+    [setData, setError]
+  )
 
-export default useFetch;
+  return {asyncFn, data, status, error}
+}
