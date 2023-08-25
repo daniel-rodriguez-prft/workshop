@@ -6,13 +6,12 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import Accordion from "../../components/accordion";
-import { CORS_WORKER, APP_ENDPOINT, API_KEY } from "../../constants";
 import { GameType, AccordionDataProps } from "../../types";
 
 export const getStaticProps: GetStaticProps<{}> = async (context) => {
   const { params } = context;
   const res = await fetch(
-    `${CORS_WORKER}/?${APP_ENDPOINT}/${params?.gameId}?key=${API_KEY}`
+    `${process.env.NEXT_PUBLIC_CORS_WORKER}/?${process.env.NEXT_PUBLIC_APP_ENDPOINT}/${params?.gameId}?key=${process.env.NEXT_PUBLIC_API_KEY}`
   );
   const data = await res.json();
   return {
