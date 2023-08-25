@@ -1,25 +1,31 @@
-import Image from "next/image"
-import Link from "next/link"
-import {useRef, useState} from "react"
-import useGameApi from "../hooks/useGameApi"
-import Slider from "./carousel"
-import Form from "./form"
+import Image from "next/image";
+import Link from "next/link";
+import { useRef, useState } from "react";
+import useGameApi from "../hooks/useGameApi";
+import Slider from "./carousel";
+import Form from "./form";
 
 export function Game() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const {data} = useGameApi(searchTerm)
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data } = useGameApi(searchTerm);
 
   return (
-    <main>
+    <main className="container mx-auto p-4">
+      <h1 className="text-4xl font-bold mb-6">Juegos</h1>
       <Form setSearchTerm={setSearchTerm} />
       {data && (
-        <div>
-          {data.map(element => {
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+          {data.map((element) => {
             return (
-              <h2 key={element.id}>
-                <Link href={`/game/${element.id}`}>{element.name}</Link>
-              </h2>
-            )
+              <div key={element.id}>
+                <Link
+                  className="cursor-pointer bg-slate-200 rounded-md p-4 w-full h-full block"
+                  href={`/game/${element.id}`}
+                >
+                  {element.name}
+                </Link>
+              </div>
+            );
           })}
         </div>
       )}
@@ -56,5 +62,5 @@ export function Game() {
         </div>
       )} */}
     </main>
-  )
+  );
 }
