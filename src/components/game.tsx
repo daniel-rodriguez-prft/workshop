@@ -3,6 +3,7 @@ import {useEffect, useState} from "react"
 import {useFetch} from "../hooks/useFetch"
 import {GameResponse} from "../types"
 import Form from "./form"
+import {Loading} from "./loading"
 
 export function Game() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -24,7 +25,7 @@ export function Game() {
     <main className="container mx-auto p-4">
       <h1 className="text-4xl font-bold mb-6">Juegos</h1>
       <Form setSearchTerm={setSearchTerm} />
-      {status === "pending" && <p>cargando</p>}
+      {status === "pending" && <Loading />}
       {data && status === "success" && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {data.results.map(element => {
@@ -39,6 +40,9 @@ export function Game() {
             );
           })}
         </div>
+      )}
+      {data?.results.length === 0 && status !== "pending" && (
+        <p>Sin resultados</p>
       )}
     </main>
   );
