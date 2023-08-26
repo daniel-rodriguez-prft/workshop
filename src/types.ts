@@ -6,6 +6,9 @@ import {
   SetStateAction
 } from "react"
 
+export interface GameResponse {
+  results: GameType[]
+}
 export interface GameType {
   id: number
   slug: string

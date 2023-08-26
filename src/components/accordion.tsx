@@ -1,5 +1,4 @@
 import {useState} from "react"
-import "../styles/accordion.scss"
 import {AccordionContextProps, ElementType} from "../types"
 import {createContext, useContext} from "react"
 
@@ -58,7 +57,7 @@ Accordion.Content = function Content({
   return (
     <div
       {...remainingProps}
-      className={`accordion ${isOpen ? "open" : "closed"}`}>
+      className={`${isOpen ? "block" : "hidden"} mb-5`}>
       {children}
     </div>
   )
