@@ -1,6 +1,5 @@
-import {useMemo, useState} from "react"
-import {AccordionContextProps, ElementType} from "../types"
-import {createContext, useContext} from "react"
+import { useMemo, useState, useContext, createContext } from "react"
+import { AccordionContextProps, ElementType } from "../types/types";
 
 const AccordionContext = createContext<AccordionContextProps>({
   isOpen: false,
