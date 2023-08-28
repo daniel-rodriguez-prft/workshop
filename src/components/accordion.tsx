@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AccordionProps } from "../types";
+import { AccordionProps } from "../types/types";
 
 export default function Accordion({ title, data }: AccordionProps) {
   return (

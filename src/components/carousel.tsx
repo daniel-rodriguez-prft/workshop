@@ -3,7 +3,7 @@ import BearCarousel, {
   BearSlideImage,
 } from "bear-react-carousel";
 import "bear-react-carousel/dist/index.css";
-import { GameType } from "../types";
+import { GameType } from "../types/types";
 
 const bearSlideItemData = ({
   images,
