@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useMemo, useState} from "react"
 import {AccordionContextProps, ElementType} from "../types"
 import {createContext, useContext} from "react"
 
@@ -17,7 +17,6 @@ function useAccordionContext() {
 }
 
 export default function Accordion({children, ...remainingProps}: ElementType) {
-
   return (
     <Accordion.Container {...remainingProps}>
       <>{children}</>
@@ -27,9 +26,10 @@ export default function Accordion({children, ...remainingProps}: ElementType) {
 
 Accordion.Item = function Item({children}: ElementType) {
   const [isOpen, setIsOpen] = useState(false)
+  const value = useMemo(() => ({isOpen, setIsOpen}), [isOpen, setIsOpen])
 
   return (
-    <AccordionContext.Provider value={{isOpen, setIsOpen}}>
+    <AccordionContext.Provider value={value}>
       <div>{children}</div>
     </AccordionContext.Provider>
   )
@@ -39,25 +39,30 @@ Accordion.Title = function Title({children}: ElementType) {
   return <div>{children}</div>
 }
 
-Accordion.Container = function Container({children, ...remainingProps}: ElementType) {
+Accordion.Container = function Container({
+  children,
+  ...remainingProps
+}: ElementType) {
   return <div {...remainingProps}>{children}</div>
 }
 
 Accordion.Heading = function Heading({children}: ElementType) {
   const {isOpen, setIsOpen} = useAccordionContext()
-
   return <div onClick={() => setIsOpen(!isOpen)}>{children}</div>
 }
 
 Accordion.Content = function Content({
   children,
+  className,
   ...remainingProps
 }: ElementType) {
   const {isOpen} = useAccordionContext()
+  const classes = ["mb-5", `${isOpen ? "block" : "hidden"}`, className].join(" ")
+
   return (
     <div
       {...remainingProps}
-      className={`${isOpen ? "block" : "hidden"} mb-5`}>
+      className={classes}>
       {children}
     </div>
   )
