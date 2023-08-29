@@ -79,7 +79,7 @@ export default function Page({ data }: { data: GameType }) {
         <Accordion.Container>
           {accordionData.map(element => (
             <Accordion.Item key={element.id}>
-              <Accordion.Heading>
+              <Accordion.Heading onClick={()=> console.log('test')}>
                 <h3 className="font-bold text-lg cursor-pointer bg-slate-200 rounded-md p-4 w-full h-full mb-4">{element.header}</h3>
               </Accordion.Heading>
               <Accordion.Content className="accordion-content">

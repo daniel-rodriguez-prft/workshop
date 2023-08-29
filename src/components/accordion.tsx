@@ -1,10 +1,24 @@
-import { useMemo, useState, useContext, createContext } from "react"
-import { AccordionContextProps, ElementType } from "../types/types";
+import {useMemo, useState, useContext, createContext} from "react"
+import {AccordionContextProps, ElementType} from "../types/types"
+
+
+const callAll =
+  (...fns: VoidFunction[]) =>
+  (...args: []) =>
+    fns.forEach(fn => typeof fn === "function" && fn(...args))
 
 const AccordionContext = createContext<AccordionContextProps>({
   isOpen: false,
   setIsOpen: () => {}
 })
+
+/* function test (...fns: VoidFunction[]) {
+  return function(...args: []){
+    return fns.forEach(function(fn){
+      return fn(...args)
+    })
+  }
+} */
 
 function useAccordionContext() {
   const context = useContext(AccordionContext)
@@ -34,8 +48,8 @@ Accordion.Item = function Item({children}: ElementType) {
   )
 }
 
-Accordion.Title = function Title({children}: ElementType) {
-  return <div>{children}</div>
+Accordion.Title = function Title({children, ...restProps}: ElementType) {
+  return <div {...restProps}> {children}</div>
 }
 
 Accordion.Container = function Container({
@@ -45,9 +59,15 @@ Accordion.Container = function Container({
   return <div {...remainingProps}>{children}</div>
 }
 
-Accordion.Heading = function Heading({children}: ElementType) {
+Accordion.Heading = function Heading({
+  children,
+  onClick,
+  ...restProps
+}: ElementType) {
   const {isOpen, setIsOpen} = useAccordionContext()
-  return <div onClick={() => setIsOpen(!isOpen)}>{children}</div>
+  return (
+    <div {...restProps} onClick={callAll(() => setIsOpen(!isOpen), onClick as VoidFunction)}>{children}</div>
+  )
 }
 
 Accordion.Content = function Content({
@@ -56,7 +76,9 @@ Accordion.Content = function Content({
   ...remainingProps
 }: ElementType) {
   const {isOpen} = useAccordionContext()
-  const classes = ["mb-5", `${isOpen ? "block" : "hidden"}`, className].join(" ")
+  const classes = ["mb-5", `${isOpen ? "block" : "hidden"}`, className].join(
+    " "
+  )
 
   return (
     <div
