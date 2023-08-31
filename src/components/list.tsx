@@ -1,20 +1,16 @@
+import {ReactElement} from "react"
+
 export default function List({
+  children,
   data
 }: {
-  data: {
-    title: string
-    content: string
-  }[]
+  children: (title: string, content: string) => ReactElement
+  data: {title: string, content: string}[]
 }) {
   return (
     <ul>
-      {data.map(el => (
-        <li key={el.title}>
-          <strong>
-            <span>{el.title}</span>:
-          </strong>
-          <span> {el.content}</span>
-        </li>
+      {data.map(({title, content}) => (
+        <li key={title}>{children(title, content)}</li>
       ))}
     </ul>
   )
