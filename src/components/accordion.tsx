@@ -31,9 +31,9 @@ function useAccordionContext() {
 
 export default function Accordion({children, ...remainingProps}: ElementType) {
   return (
-    <Accordion.Container {...remainingProps}>
+    <section {...remainingProps}>
       <>{children}</>
-    </Accordion.Container>
+    </section>
   )
 }
 
