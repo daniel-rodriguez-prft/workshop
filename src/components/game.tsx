@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Form from "./form";
 import { Loading } from "./loading";
-import { GameResponse } from "@/types";
+import { GameResponse } from "@/types/types";
 
 export function Game() {
   const [searchTerm, setSearchTerm] = useState("");
